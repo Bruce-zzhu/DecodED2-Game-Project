@@ -4,6 +4,7 @@ from pygame.locals import QUIT
 from src.game import Game
 
 def main():
+    
     pygame.init()
 
     display = pygame.display.set_mode((SCREEN_W, SCREEN_H), 0, 32)
@@ -12,15 +13,10 @@ def main():
     running = True
     game = Game()
     game_clock = pygame.time.Clock()
-    # game loop
     while running:
-        # process input
-        # update game world
-        # render game world
         delta = game_clock.tick(FPS)
         events = pygame.event.get()
         game.handle_input(events)
-
         game.update(delta)
         game.render(display, font)
         pygame.display.update()
@@ -28,8 +24,6 @@ def main():
         for e in events:
             if e.type == QUIT:
                 running = False
-
-
 
 
 if __name__ == "__main__":

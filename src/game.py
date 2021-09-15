@@ -1,39 +1,47 @@
-import pygame
-from pygame.locals import KEYDOWN, KEYUP, K_LEFT, K_RIGHT, K_SPACE
+from pygame.locals import K_RIGHT, K_SPACE, KEYDOWN, KEYUP, K_LEFT
 from pygame import Color, Vector2
 from src.constants import BLACK, WHITE
+from src.entities.player import Player
+
 
 class Game:
+
     entities: "list"
 
     def __init__(self):
         self.entities = []
+        self.player = Player()  # object
+        self.entities.append(self.player)
 
     def handle_input(self, events):
         for event in events:
             if event.type == KEYDOWN:
                 if event.key == K_LEFT:
-                    print("move left")
+                    self.player.move_left()
                 if event.key == K_RIGHT:
-                    print("move right")
+                    self.player.move_right()
                 if event.key == K_SPACE:
-                    print("shoot")
+                    print("Shoot bullet!")
             if event.type == KEYUP:
-                if event.key == K_LEFT:
-                    print("stop move left")
-                if event.key == K_RIGHT:
-                    print("stop move right")
+                if event.key == K_LEFT and self.player.move_direction < 0:
+                    self.player.stop_moving()
+                if event.key == K_RIGHT and self.player.move_direction > 0:
+                    self.player.stop_moving()
 
-    def update(self, delta):
+    def update(self,delta):
         for i in range(len(self.entities) - 1, -1, -1):
-            # execute entity logic
             obj = self.entities[i]
+            # Execute entity logic
+            obj.tick(delta, self.entities)
+            obj.move(delta)
 
     def render_text(self, display, font, text: str, color: Color, position: Vector2):
         surface = font.render(text, True, color)
         display.blit(surface, position)
 
     def render(self, display, font):
-        # loop through each entity and render it
         display.fill(BLACK)
+        # loop through each entity and render it
+        for o in self.entities:
+            o.render(display)
         self.render_text(display, font, "Space Invaders", WHITE, (50,50))
