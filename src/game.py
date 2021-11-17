@@ -1,11 +1,12 @@
 from pygame.key import start_text_input
-from pygame.locals import K_RIGHT, K_SPACE, KEYDOWN, KEYUP, K_LEFT
+from pygame.locals import K_RIGHT, K_SPACE, KEYDOWN, KEYUP, K_LEFT, K_ESCAPE
 from pygame import Color, Vector2
 from src.entities.shield import Shield
 from src.entities.enemy import Enemy
 from src.constants import BLACK, ENEMY_OFFSET, ENEMY_SPEED, EXTRA_ENEMIES_PER_LEVEL, EXTRA_ENEMY_SPEED_PER_LEVEL, INITIAL_NUM_ENEMIES, MAX_PER_ROW, SCREEN_H, SCREEN_W, WHITE, NUMBER_OF_SHIELDS
 from src.entities.player import Player
 import random
+import pygame
 
 class Game:
 
@@ -59,13 +60,18 @@ class Game:
             if event.type == KEYDOWN:
                 if event.key == K_LEFT:
                     self.player.move_left()
-                if event.key == K_RIGHT:
+                elif event.key == K_RIGHT:
                     self.player.move_right()
-                if event.key == K_SPACE:
+                elif event.key == K_SPACE:
                     if self.player.expired:
                         self.restart_game()
                     else:
                         self.player.shoot()
+                elif event.key == K_ESCAPE:
+                    print("Game exited")
+                    pygame.quit()
+                    exit()
+                    
             if event.type == KEYUP:
                 if event.key == K_LEFT and self.player.move_direction < 0:
                     self.player.stop_moving()
