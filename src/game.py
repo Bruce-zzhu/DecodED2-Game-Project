@@ -5,7 +5,7 @@ from src.entities.shield import Shield
 from src.entities.enemy import Enemy
 from src.constants import BLACK, ENEMY_OFFSET, ENEMY_SPEED, EXTRA_ENEMIES_PER_LEVEL, EXTRA_ENEMY_SPEED_PER_LEVEL, INITIAL_NUM_ENEMIES, MAX_PER_ROW, SCREEN_H, SCREEN_W, WHITE, NUMBER_OF_SHIELDS
 from src.entities.player import Player
-
+import random
 
 class Game:
 
@@ -28,22 +28,20 @@ class Game:
         self.level += 1
 
     def generate_enemies(self):
-        # test_enemy_1 = Enemy(Vector2(100, 100), ENEMY_SPEED, 'res/enemy-blue.png')
-        # test_enemy_2 = Enemy(Vector2(150, 100), ENEMY_SPEED, 'res/enemy-green.png')
-        # test_enemy_3 = Enemy(Vector2(200, 100), ENEMY_SPEED, 'res/enemy-red.png')
-        # self.entities.append(test_enemy_1)
-        # self.entities.append(test_enemy_2)
-        # self.entities.append(test_enemy_3)
         extra_enemies = self.level * EXTRA_ENEMIES_PER_LEVEL
         extra_enemy_speed = self.level * EXTRA_ENEMY_SPEED_PER_LEVEL
         total_enemy_count = extra_enemies + INITIAL_NUM_ENEMIES
+
         self.num_active_enemies = total_enemy_count
         curr_enemy_speed = extra_enemy_speed + ENEMY_SPEED
+
         col_gap = SCREEN_W // MAX_PER_ROW
         col, row = 0, 0
+        colors = ['green', 'blue', 'red', 'pink', 'yellow']
         for _ in range(total_enemy_count):
             enemy_corrds = Vector2(ENEMY_OFFSET+(col*col_gap), ENEMY_OFFSET+row*col_gap)
-            new_enemy = Enemy(enemy_corrds, curr_enemy_speed, "res/enemy-green.png")
+            color_idx = random.randint(0, len(colors)-1)
+            new_enemy = Enemy(enemy_corrds, curr_enemy_speed, f"res/enemy-{colors[color_idx]}.png")
             self.entities.append(new_enemy)
             col += 1
             if col >= MAX_PER_ROW:
@@ -98,7 +96,7 @@ class Game:
 
     def render(self, display, font):
         display.fill(BLACK)
-        self.render_text(display, font, "Space Shooter", WHITE, (SCREEN_W//2-60,25))
+        self.render_text(display, font, "Space Invaders", WHITE, (SCREEN_W//2-70,25))
         if not self.player.expired:
             # loop through each entity and render it
             for o in self.entities:
