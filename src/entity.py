@@ -26,8 +26,8 @@ class Entity(pygame.Rect):
             self.height
         )
 
-    def boundart_check(self):
-        return self.x <= 0 or self.x >= SCREEEN_W - self.width
+    def boundary_check(self):
+        return self.x <= 0 or self.x >= SCREEN_W - self.width
 
     def tick(self, delta: int, objects: 'list'):
         pass
