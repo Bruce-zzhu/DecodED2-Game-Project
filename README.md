@@ -9,7 +9,7 @@ touch your spacecraft</li>
 </ul>
 
 ## Run the game
-Install pygame:
+Install ```pygame```:
 ```
 pip install pygame
 ```
