@@ -16,6 +16,7 @@ class Game:
         self.restart_game()
 
     def restart_game(self):
+        print('Start a new game.')
         self.entities = []
         self.player = Player()  # object
         self.entities.append(self.player)
@@ -24,6 +25,7 @@ class Game:
         self.start_next_level()
 
     def start_next_level(self):
+        print(f"Start level {self.level}")
         self.generate_enemies()
         self.generate_shield()
         self.level += 1
@@ -113,3 +115,4 @@ class Game:
             # player is killed
             self.render_text(display, font, "Game Over. Press SPACE to start again!", WHITE, (SCREEN_W//2-200, SCREEN_H//2-50))
             self.render_text(display, font, f"Score: {self.level}", WHITE, (SCREEN_W//2-50, SCREEN_H//2+50))
+            
